@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      .fruits {
+        display: inline-flex;
+        flex-direction: column;
+        border: 1px solid pink;
+      }
+      ul {
+        display: flex;
+        flex-direction: row;
+        list-style: none;
+      }
+      ul > li {
+        width: 100px;
+        height: 80px;
+        line-height: 80px;
+        border: 1px solid red;
+        cursor: pointer;
+      }
+      .active {
+        background-color: yellow;
+      }
+      .image > img {
+        width: 300px;
+        border: 1px solid blue;
+      }
+      .image {
+        display: none;
+      }
+      .current {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="fruits">
+        <ul>
+          <!-- 和当前索引进行对比 如果相等 将active带入对应的标签 -->
+          <li
+            v-bind:class="currentIndex==index?'active':''"
+            :key="item.id"
+            v-for="(item,index) in fruit"
+            v-on:click="handle(index)"
+          >
+            <!--将Index传到函数当中  -->
+            {{item.name}}
+          </li>
+        </ul>
+        <!-- 和当前索引进行对比 如果相等 将current带入对应的标签 -->
+        <div
+          v-bind:class="currentIndex==index?'current':''"
+          class="image"
+          :key="item.id"
+          v-for="(item,index) in fruit"
+        >
+          <img v-bind:src="item.fruitimageurl" />
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="./js/vue.js"></script>
+  <script>
+    var app = new Vue({
+      el: "#app",
+      data: {
+        currentIndex: 0,
+        fruit: [
+          {
+            id: 1,
+            name: "apple",
+            fruitimageurl:
+              "https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3916047790,1967660572&fm=26&gp=0.jpg",
+          },
+          {
+            id: 2,
+            name: "orange",
+            fruitimageurl:
+              "https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3005367283,2872944661&fm=26&gp=0.jpg",
+          },
+          {
+            id: 3,
+            name: "lemon",
+            fruitimageurl:
+              "https://dss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3409108004,4117085993&fm=26&gp=0.jpg",
+          },
+        ],
+      },
+      methods: {
+        handle: function (index) {
+          //实现选项卡切换操作 本质:操作类名
+          //如何操作类名? 通过currentIndex来操作
+          this.currentIndex = index;
+        },
+      },
+    });
+  </script>
+</html>
