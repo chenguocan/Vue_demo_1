@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      li {
+        list-style: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div>水果列表</div>
+      <ul>
+        <li v-for="item in fruits">{{item}}</li>
+      </ul>
+      <div>水果列表2</div>
+      <ul>
+        <li v-for="(item2,index) in fruits">{{item2+"---"+index}}</li>
+      </ul>
+      <div>水果列表3</div>
+      <ul>
+        <li :key="item.id" v-for="(item,index) in myFruits">
+          <span>{{item.ename}}</span>
+          <span>{{item.cname}}</span>
+        </li>
+      </ul>
+      <div>学生列表</div>
+      <div v-for="(value,key,index) in obj">
+        <li>{{value}}</li>
+        <li>{{key}}</li>
+        <li>{{index}}</li>
+      </div>
+    </div>
+  </body>
+  <script src="./js/vue.js"></script>
+  <script>
+    var app = new Vue({
+      el: "#app",
+      data: {
+        fruits: ["apple", "orange", "banana"],
+        myFruits: [
+          {
+            id: 1,
+            ename: "apple",
+            cname: "苹果",
+          },
+          {
+            id: 2,
+            ename: "orange",
+            cname: "橘子",
+          },
+          {
+            id: 3,
+            ename: "banana",
+            cname: "香蕉",
+          },
+        ],
+        obj: {
+          uname: "list",
+          age: 12,
+          gender: "male",
+        },
+      },
+      method: {},
+    });
+  </script>
+</html>
