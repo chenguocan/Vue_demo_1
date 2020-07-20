@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app">
+      <form action="">
+        <input type="text" v-model="age" />
+        <input type="submit" v-on:click.prevent="handle" value="提交" />
+      </form>
+    </div>
+  </body>
+  <script src="./js/vue.js"></script>
+  <script>
+    var app = new Vue({
+      el: "#app",
+      data: {
+        age: "hi",
+      },
+      methods: {
+        handle: function () {
+          console.log(this.age + 13);
+        },
+      },
+    });
+  </script>
+</html>

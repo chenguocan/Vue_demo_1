@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      .usemsg {
+        width: 450px;
+        height: 500px;
+        border: 1px solid red;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="usemsg">
+      <span>姓名:</span>
+      <input type="text" /><br />
+      <span>性别:</span>
+      <input type="radio" name="gender" value="man" checked />男
+      <input type="radio" name="gender" value="man" />女<br />
+      <span>爱好</span>
+      <input type="checkbox" name="favorite" id="basketball" />
+      <label for="basketball">篮球</label>
+      <input type="checkbox" name="favorite" value="song" />
+      <label for="song">唱歌</label>
+      <input type="checkbox" name="favorite" id="writecode" />
+      <label for="writecode">写代码 </label><br />
+      <span>职业</span>
+      <select name="">
+        <option value="">请选择职业</option>
+        <option value="doctoer">医生</option>
+        <option value="student">学生</option>
+        <option value="IT">程序员</option>
+      </select>
+      <br />
+      <span>个人简介</span>
+    </div>
+  </body>
+</html>
