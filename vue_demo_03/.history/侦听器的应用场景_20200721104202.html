@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app">
+      用户名:<input type="text" v-model.lazy="uname" />
+      <span>{{tip}}</span>
+    </div>
+  </body>
+  <script src="./js/vue.js"></script>
+  <script>
+    /*
+        侦听器
+        1.采用侦听器监听用户名的变化
+        2.调用后台接口进行验证
+        3.根据验证的结果调整提示信息
+      */
+    let app = new Vue({
+      el: "#app",
+      data: {
+        uname: "",
+        tip: "",
+      },
+      methods: {
+        checkName: function () {
+          setTimeout(() => {
+            if ((this.uname = "admin")) {
+              this.tip = "用户已经存在";
+            } else {
+              this.tip = "用户名可用";
+            }
+          });
+        },
+      },
+      watch: {
+        uname: function (val) {
+          this.uname = val;
+          checkName();
+          this.tip = "正在验证...";
+        },
+      },
+    });
+  </script>
+</html>

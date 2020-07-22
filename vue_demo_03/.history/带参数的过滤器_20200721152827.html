@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app">
+      <div>{{data|format}}</div>
+    </div>
+  </body>
+  <script src="./js/vue.js"></script>
+  <script>
+    Vue.filter("format", function (val, arg) {
+      return val.getDate();
+    });
+    let app = new Vue({
+      el: "#app",
+      data: {
+        data: new Date(),
+      },
+    });
+  </script>
+</html>

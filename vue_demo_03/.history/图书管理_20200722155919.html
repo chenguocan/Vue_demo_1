@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      .book {
+        text-align: center;
+      }
+      .user {
+        display: flex;
+        justify-content: center;
+      }
+      .user table {
+        border-bottom: 1px solid gray;
+      }
+      table {
+        border-collapse: collapse;
+      }
+      th {
+        background-color: burlywood;
+      }
+      .user td {
+        padding: 0 15px 0 10.5px;
+        background-color: burlywood;
+      }
+      td {
+        border-collapse: collapse;
+      }
+      .bookmsg {
+        display: flex;
+        justify-content: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="book">
+        <h1>图书管理</h1>
+        <div class="user">
+          <table>
+            <tr>
+              <td>
+                编号:<input
+                  type="text"
+                  name="id"
+                  v-model="addid"
+                  v-bind:disabled="flag"
+                  v-focus
+                />
+              </td>
+              <td>
+                名称:<input
+                  type="text"
+                  name="bookname"
+                  v-model.lazy="addbook"
+                />
+              </td>
+              <td>
+                <button v-on:click="AddBook">提交</button>
+                <p>{{tip}}</p>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="bookmsg">
+          <table>
+            <thead>
+              <tr>
+                <th width="50">编号</th>
+                <th width="150">名称</th>
+                <th width="150">时间</th>
+                <th width="150">操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr :key="item.id" v-for="(item,index) in book">
+                <td>{{item.id}}</td>
+                <td>{{item.bookname}}</td>
+                <td>{{item.date | format(item.date)}}</td>
+                <td>
+                  <a href="#" @click.prevent="revise(index)">修改</a>|<a
+                    href=""
+                    @click.prevent="del(index)"
+                    >删除</a
+                  >
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div><span>书本数量:{{caculatorBook}}</span></div>
+      </div>
+    </div>
+  </body>
+  <script src="./js/vue.js"></script>
+  <script>
+    Vue.directive("focus", {
+      inserted: function (el) {
+        el.focus();
+        //console.log(el);
+      },
+    });
+    Vue.filter("format", function (value, arg) {
+      function dateFormat(date, format) {
+        if (typeof date === "string") {
+          var mts = date.match(/(\/Date\((\d+)\)\/)/);
+          if (mts && mts.length >= 3) {
+            date = parseInt(mts[2]);
+          }
+        }
+        date = new Date(date);
+        if (!date || date.toUTCString() == "Invalid Date") {
+          return "";
+        }
+        var map = {
+          M: date.getMonth() + 1, //月份
+          d: date.getDate(), //日
+          h: date.getHours(), //小时
+          m: date.getMinutes(), //分
+          s: date.getSeconds(), //秒
+          q: Math.floor((date.getMonth() + 3) / 3), //季度
+          S: date.getMilliseconds(), //毫秒
+        };
+
+        format = format.replace(/([yMdhmsqS])+/g, function (all, t) {
+          var v = map[t];
+          if (v !== undefined) {
+            if (all.length > 1) {
+              v = "0" + v;
+              v = v.substr(v.length - 2);
+            }
+            return v;
+          } else if (t === "y") {
+            return (date.getFullYear() + "").substr(4 - all.length);
+          }
+          return all;
+        });
+        return format;
+      }
+      return dateFormat(value, arg);
+    });
+    let app = new Vue({
+      el: "#app",
+      data: {
+        flag: false,
+        tip: "",
+        addbook: "",
+        addid: "",
+        book: [
+          {
+            id: 1,
+            bookname: "三国演义",
+            date: "2018-01-01",
+          },
+          {
+            id: 2,
+            bookname: "水浒传",
+            date: "2018-01-01",
+          },
+          {
+            id: 3,
+            bookname: "红楼梦",
+            date: "2018-01-01",
+          },
+          {
+            id: 4,
+            bookname: "西游记",
+            date: "2018-01-01",
+          },
+        ],
+      },
+      methods: {
+        //添加图书
+        //通过创建一个对象,把一整个对象push到数组当中
+        AddBook: function (value) {
+          //Vue.set(this.book, this.book[4].id, this.addid);
+          if (this.flag) {
+            this.book.some((item) => {
+              console.log(item.id);
+
+              if (item.id == this.addid) {
+                item.bookname = this.addbook;
+                return true; //终止遍历
+                this.flag = false;
+              }
+            });
+          } else {
+            var ab = {};
+            console.log(this.addid);
+            ab.id = this.addid;
+            ab.bookname = this.addbook;
+            ab.date = "2018-01-01";
+            this.book.push(ab);
+          }
+          // 清空表单
+          this.id = "";
+          this.bookname = "";
+          //Vue.set(this.book, this.book[1], this.bookname);
+          //console.log(this.book[1].bookname);
+          // console.log(this.book[addid].id);
+        },
+        del: function (index) {
+          console.log(this.book);
+          this.book.splice(index, 1);
+        },
+        revise: function (index) {
+          this.flag = true;
+          // if (this.addid === this.book.length) {
+          //     var ab = {};
+          //     console.log(this.addid);
+          //     ab.id = this.addid;
+          //     ab.bookname = this.addbook;
+          //     ab.date = "2018-01-01";
+          //     this.book.push(ab);
+          //   }
+          console.log(this.book.length);
+          this.addid = this.book[index].id;
+          this.addbook = this.book[index].bookname;
+        },
+        checkBook: function () {
+          setTimeout(() => {});
+        },
+      },
+      computed: {
+        caculatorBook: function () {
+          return this.book.length;
+        },
+      },
+      watch: {
+        addbook: function (val) {
+          console.log(val);
+          checkBook(val);
+          this.tip = "验证中...";
+        },
+      },
+    });
+  </script>
+</html>

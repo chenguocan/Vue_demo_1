@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      .book {
+        border: 1px solid red;
+        text-align: center;
+      }
+      table {
+        border-collapse: collapse;
+      }
+      th {
+        border: 1px solid red;
+        border-collapse: collapse;
+      }
+      .bookmsg {
+        border: 1px solid blue;
+        display: flex;
+        justify-content: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="book">
+      <h1>图书管理</h1>
+      <table>
+        <tr>
+          编号:<input type="text" name="id" />
+          名称:<input type="text" name="bookname" />
+        </tr>
+      </table>
+      <div class="bookmsg">
+        <table>
+          <thead>
+            <tr>
+              <th>编号</th>
+              <th>名称</th>
+              <th>时间</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+    </div>
+  </body>
+  <script src="./js/vue.js"></script>
+</html>

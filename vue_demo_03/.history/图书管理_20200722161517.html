@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      .book {
+        text-align: center;
+      }
+      .user {
+        display: flex;
+        justify-content: center;
+      }
+      .user table {
+        border-bottom: 1px solid gray;
+      }
+      table {
+        border-collapse: collapse;
+      }
+      th {
+        background-color: burlywood;
+      }
+      .user td {
+        padding: 0 15px 0 10.5px;
+        background-color: burlywood;
+      }
+      td {
+        border-collapse: collapse;
+      }
+      .bookmsg {
+        display: flex;
+        justify-content: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="book">
+        <h1>图书管理</h1>
+        <div class="user">
+          <table>
+            <tr>
+              <td>
+                编号:<input
+                  type="text"
+                  name="id"
+                  v-model="addid"
+                  v-bind:disabled="flag"
+                  v-focus
+                />
+              </td>
+              <td>
+                名称:<input
+                  type="text"
+                  name="bookname"
+                  v-model.lazy="addbook"
+                />
+              </td>
+              <td>
+                <button v-on:click="AddBook">提交</button>
+                <p>{{tip}}</p>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="bookmsg">
+          <table>
+            <thead>
+              <tr>
+                <th width="50">编号</th>
+                <th width="150">名称</th>
+                <th width="150">时间</th>
+                <th width="150">操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr :key="item.id" v-for="(item,index) in book">
+                <td>{{item.id}}</td>
+                <td>{{item.bookname}}</td>
+                <td>{{item.date | format(item.date)}}</td>
+                <td>
+                  <a href="#" @click.prevent="revise(index)">修改</a>|<a
+                    href=""
+                    @click.prevent="del(index)"
+                    >删除</a
+                  >
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div><span>书本数量:{{caculatorBook}}</span></div>
+      </div>
+    </div>
+  </body>
+  <script src="./js/vue.js"></script>
+  <script>
+    Vue.directive("focus", {
+      inserted: function (el) {
+        el.focus();
+        //console.log(el);
+      },
+    });
+    Vue.filter("format", function (value, arg) {});
+    let app = new Vue({
+      el: "#app",
+      data: {
+        flag: false,
+        tip: "",
+        addbook: "",
+        addid: "",
+        book: [
+          {
+            id: 1,
+            bookname: "三国演义",
+            date: "2018-01-01",
+          },
+          {
+            id: 2,
+            bookname: "水浒传",
+            date: "2018-01-01",
+          },
+          {
+            id: 3,
+            bookname: "红楼梦",
+            date: "2018-01-01",
+          },
+          {
+            id: 4,
+            bookname: "西游记",
+            date: "2018-01-01",
+          },
+        ],
+      },
+      methods: {
+        //添加图书
+        //通过创建一个对象,把一整个对象push到数组当中
+        AddBook: function (value) {
+          //Vue.set(this.book, this.book[4].id, this.addid);
+          if (this.flag) {
+            this.book.some((item) => {
+              if (item.id == this.addid) {
+                item.bookname = this.addbook;
+                return true; //终止遍历
+                this.flag = false;
+              }
+            });
+          } else {
+            var ab = {};
+            ab.id = this.addid;
+            ab.bookname = this.addbook;
+            ab.date = "2018-01-01";
+            this.book.push(ab);
+          }
+          // 清空表单
+          this.id = "";
+          this.bookname = "";
+          //Vue.set(this.book, this.book[1], this.bookname);
+          //console.log(this.book[1].bookname);
+          // console.log(this.book[addid].id);
+        },
+        del: function (index) {
+          this.book.splice(index, 1);
+        },
+        revise: function (index) {
+          this.flag = true;
+          // if (this.addid === this.book.length) {
+          //     var ab = {};
+          //     console.log(this.addid);
+          //     ab.id = this.addid;
+          //     ab.bookname = this.addbook;
+          //     ab.date = "2018-01-01";
+          //     this.book.push(ab);
+          //   }
+          this.addid = this.book[index].id;
+          this.addbook = this.book[index].bookname;
+        },
+        checkBook: function (val) {
+          setTimeout(() => {
+            console.log(
+              this.book.find(function (item) {
+                return item.key == this.val;
+              })
+            );
+          }, 2000);
+        },
+      },
+
+      computed: {
+        caculatorBook: function () {
+          return this.book.length;
+        },
+      },
+      watch: {
+        addbook: function (val) {
+          console.log(val);
+          this.checkBook(val);
+          this.tip = "验证中...";
+        },
+      },
+    });
+  </script>
+</html>

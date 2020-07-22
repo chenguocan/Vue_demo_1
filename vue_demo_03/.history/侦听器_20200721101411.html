@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app">
+      姓:<input type="text" /><br />
+      名:<input type="text" /><br />
+      <span></span>
+    </div>
+  </body>
+  <script src="./js/vue.js"></script>
+  <script>
+    let app = new Vue({
+      el: "#app",
+      data: {
+        fullname: "",
+        familyname: "chen",
+        name: "guocan",
+      },
+      methods: {},
+    });
+  </script>
+</html>

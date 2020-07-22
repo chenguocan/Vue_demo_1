@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      .book {
+        text-align: center;
+      }
+      .user {
+        display: flex;
+        justify-content: center;
+      }
+      .user table {
+        border-bottom: 1px solid gray;
+      }
+      table {
+        border-collapse: collapse;
+      }
+      th {
+        background-color: burlywood;
+      }
+      .user td {
+        padding: 0 15px 0 10.5px;
+        background-color: burlywood;
+      }
+      td {
+        border-collapse: collapse;
+      }
+      .bookmsg {
+        display: flex;
+        justify-content: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="book">
+        <h1>图书管理</h1>
+        <div class="user">
+          <table>
+            <tr>
+              <td>编号:<input type="text" name="id" /></td>
+              <td>名称:<input type="text" name="bookname" /></td>
+              <td><button>提交</button></td>
+            </tr>
+          </table>
+        </div>
+        <div class="bookmsg">
+          <table>
+            <thead>
+              <tr>
+                <th width="50">编号</th>
+                <th width="150">名称</th>
+                <th width="150">时间</th>
+                <th width="150">操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(item,index) in book">
+                <td>{{item.id}}</td>
+                <td>{{item.bookname}}</td>
+                <td>{{item.date|dCreatDate}}</td>
+                <td><a href="#">删除</a>|<a href="">删除</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="./js/vue.js"></script>
+  <script>
+    let app = new Vue({
+      el: "#app",
+      data: {
+        book: [
+          {
+            id: 1,
+            bookname: "三国演义",
+            date: new Date(),
+          },
+          {
+            id: 2,
+            bookname: "水浒传",
+            date: new Date(),
+          },
+          {
+            id: 3,
+            bookname: "红楼梦",
+            date: new Date(),
+          },
+          {
+            id: 4,
+            bookname: "西游记",
+            date: new Date(),
+          },
+        ],
+      },
+    });
+    Vue.filter("dCreatDate", function (value) {
+      console.log(value);
+      var date = new Date(parseInt(value));
+      var Y = date.getFullYear() + "-";
+      var M =
+        (date.getMonth() + 1 < 10
+          ? "0" + (date.getMonth() + 1)
+          : date.getMonth() + 1) + "-";
+      var D = date.getDate() + " ";
+      var h = date.getHours() + ":";
+      var m = date.getMinutes() + ":";
+      var s = date.getSeconds();
+      var df = Y + M + D + h + m + s;
+      console.log(df);
+      return df;
+    });
+  </script>
+</html>
